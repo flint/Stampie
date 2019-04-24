@@ -105,12 +105,12 @@ class PostmarkTest extends TestCase
                     'Attachments' => [
                         [
                             'Name'        => 'path1.txt',
-                            'Content'     => base64_encode('Attachment #1'.PHP_EOL),
+                            'Content'     => base64_encode("Attachment #1\n"),
                             'ContentType' => 'text/plain',
                         ],
                         [
                             'Name'        => 'path2.txt',
-                            'Content'     => base64_encode('Attachment #2'.PHP_EOL),
+                            'Content'     => base64_encode("Attachment #2\n"),
                             'ContentType' => 'text/plain',
                             'ContentID'   => 'id1',
                         ],

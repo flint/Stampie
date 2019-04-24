@@ -87,9 +87,9 @@ class SendGridTest extends TestCase
                 $body = (string) $request->getBody();
 
                 return
-                    false !== strpos($body, base64_encode('Attachment #1'.PHP_EOL))
-                    && false !== strpos($body, base64_encode('Attachment #2'.PHP_EOL))
-                    && false !== strpos($body, base64_encode('Attachment #3'.PHP_EOL));
+                    false !== strpos($body, base64_encode("Attachment #1\n"))
+                    && false !== strpos($body, base64_encode("Attachment #2\n"))
+                    && false !== strpos($body, base64_encode("Attachment #3\n"));
             }))
             ->willReturn(new Response());
 
