@@ -123,7 +123,7 @@ class SendGridTest extends TestCase
         $this->mailer->send($message);
     }
 
-    public function testSendTaggableEmpty()
+    public function testSendEmptyTaggable()
     {
         $message = $this->getTaggableMessageMock('bob@example.com', 'alice@example.com', 'Stampie is awesome!', null, null, [], []);
 
