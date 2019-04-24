@@ -124,7 +124,10 @@ class SendGrid extends Mailer
         }
 
         if ($message instanceof TaggableInterface) {
-            $parameters['categories'] = (array) $message->getTag();
+            $tags = (array) $message->getTag();
+            if (!empty($tags)) {
+                $parameters['categories'] = $tags;
+            }
         }
 
         if ($message instanceof MetadataAwareInterface) {

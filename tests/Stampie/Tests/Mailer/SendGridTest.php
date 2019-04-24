@@ -123,6 +123,32 @@ class SendGridTest extends TestCase
         $this->mailer->send($message);
     }
 
+    public function testSendTaggableEmpty()
+    {
+        $message = $this->getTaggableMessageMock('bob@example.com', 'alice@example.com', 'Stampie is awesome!', null, null, [], []);
+
+        $this->httpClient
+            ->expects($this->once())
+            ->method('sendRequest')
+            ->with($this->callback(function (Request $request) {
+                return (string) $request->getBody() === json_encode([
+                    'personalizations' => [[
+                            'to' => [[
+                                'email' => 'alice@example.com',
+                            ]],
+                            'subject' => 'Stampie is awesome!',
+                        ]],
+                        'from' => [
+                            'email' => 'bob@example.com',
+                        ],
+                        'content' => [],
+                ]);
+            }))
+            ->willReturn(new Response());
+
+        $this->mailer->send($message);
+    }
+
     public function testSendMetadataAware()
     {
         $message = $this->getMetadataAwareMessageMock('bob@example.com', 'alice@example.com', 'Stampie is awesome!', null, null, [], ['client_name' => 'Stampie']);
