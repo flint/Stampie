@@ -87,9 +87,9 @@ class SendGridTest extends TestCase
                 $body = (string) $request->getBody();
 
                 return
-                    false !== strpos($body, base64_encode('Attachment #1'.PHP_EOL))
-                    && false !== strpos($body, base64_encode('Attachment #2'.PHP_EOL))
-                    && false !== strpos($body, base64_encode('Attachment #3'.PHP_EOL));
+                    false !== strpos($body, base64_encode("Attachment #1\n"))
+                    && false !== strpos($body, base64_encode("Attachment #2\n"))
+                    && false !== strpos($body, base64_encode("Attachment #3\n"));
             }))
             ->willReturn(new Response());
 
@@ -116,6 +116,32 @@ class SendGridTest extends TestCase
                         ],
                         'content' => [],
                     'categories'  => ['tag'],
+                ]);
+            }))
+            ->willReturn(new Response());
+
+        $this->mailer->send($message);
+    }
+
+    public function testSendEmptyTaggable()
+    {
+        $message = $this->getTaggableMessageMock('bob@example.com', 'alice@example.com', 'Stampie is awesome!', null, null, [], []);
+
+        $this->httpClient
+            ->expects($this->once())
+            ->method('sendRequest')
+            ->with($this->callback(function (Request $request) {
+                return (string) $request->getBody() === json_encode([
+                    'personalizations' => [[
+                            'to' => [[
+                                'email' => 'alice@example.com',
+                            ]],
+                            'subject' => 'Stampie is awesome!',
+                        ]],
+                        'from' => [
+                            'email' => 'bob@example.com',
+                        ],
+                        'content' => [],
                 ]);
             }))
             ->willReturn(new Response());
