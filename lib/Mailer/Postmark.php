@@ -24,7 +24,7 @@ class Postmark extends Mailer
      */
     protected function getEndpoint()
     {
-        return 'http://api.postmarkapp.com/email';
+        return 'https://api.postmarkapp.com/email';
     }
 
     /**
